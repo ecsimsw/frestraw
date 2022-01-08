@@ -34,6 +34,7 @@ public class Card {
     private String name;
     private String email;
     private String gender;
+    private String profession;
 //    private List<CardGroup> cardGroups;
 
     protected Card() {}
