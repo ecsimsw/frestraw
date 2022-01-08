@@ -34,7 +34,10 @@ dependencies {
     testImplementation 'io.rest-assured:rest-assured:4.4.0'
 
     // h2
-    implementation 'com.h2database:h2'
+    //implementation 'com.h2database:h2'
+
+    // mysql
+    implementation 'mysql:mysql-connector-java'
 
     // devtools
     implementation("org.springframework.boot:spring-boot-devtools")
