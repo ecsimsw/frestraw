@@ -11,8 +11,11 @@ public class Group {
     @Id
     private Long id;
     private String name;
-    private String
     private String password;
 
 
+    public void update(Group other) {
+        this.name = other.name;
+        this.password = other.password;
+    }
 }
