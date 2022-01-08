@@ -1,5 +1,5 @@
 plugins {
-    id 'org.springframework.boot' version '2.6.2'
+    id 'org.springframework.boot' version '2.4.5'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
 }
@@ -23,8 +23,8 @@ dependencies {
     implementation 'io.jsonwebtoken:jjwt:0.9.1'
 
     // swagger
-    implementation 'io.springfox:springfox-swagger2:3.0.0'
-    implementation 'io.springfox:springfox-swagger-ui:3.0.0'
+    implementation 'io.springfox:springfox-swagger2:2.9.2'
+    implementation 'io.springfox:springfox-swagger-ui:2.9.2'
 
     // test environment
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
@@ -36,9 +36,6 @@ dependencies {
 
     // devtools
     implementation("org.springframework.boot:spring-boot-devtools")
-
-    // thymeleaf
-    implementation('org.springframework.boot:spring-boot-starter-thymeleaf')
 }
 
 test {
