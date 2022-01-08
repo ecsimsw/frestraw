@@ -38,8 +38,8 @@ public class CardService {
         final Card card = request.toCard(imageName);
         cardRepository.save(card);
 
-        final List<CardItem> cardItems = getRequestCardItems(request, card.getId());
-        cardItemRepository.saveAll(cardItems);
+//        final List<CardItem> cardItems = getRequestCardItems(request, card.getId());
+//        cardItemRepository.saveAll(cardItems);
 
 
         String uploadDir = "card-photos/" + card.getId();
@@ -48,14 +48,14 @@ public class CardService {
 //            multipartFile = Files.
         }
         FileUploadUtil.saveFile(uploadDir, imageName, multipartFile);
-        return CardResponse.of(card, CardItemResponse.listOf(cardItems), Collections.emptyList());
+        return CardResponse.of(card, Collections.emptyList(), Collections.emptyList());
     }
 
     @Transactional
     public CardResponse createInGroup(Long groupId, CardRequest request, MultipartFile multipartFile) throws IOException {
         final String imageName = multipartFile == null ? "default" : StringUtils.cleanPath(multipartFile.getOriginalFilename());
         final Card card = cardRepository.save(request.toCard(imageName));
-        final List<CardItem> cardItems = cardItemRepository.saveAll(getRequestCardItems(request, card.getId()));
+//        final List<CardItem> cardItems = cardItemRepository.saveAll(getRequestCardItems(request, card.getId()));
         final List<GroupResponse> groupResponses = groupService.enter(groupId, card);
 
         String uploadDir = "card-photos/" + card.getId();
@@ -65,7 +65,7 @@ public class CardService {
         }
         FileUploadUtil.saveFile(uploadDir, imageName, multipartFile);
 
-        return CardResponse.of(card, CardItemResponse.listOf(cardItems), groupResponses);
+        return CardResponse.of(card, Collections.emptyList(), groupResponses);
     }
 
     @Transactional(readOnly = true)
@@ -112,7 +112,7 @@ public class CardService {
     @Transactional
     public CardResponse update(Long id, CardRequest request) {
         final Card card = getCard(id);
-        card.update(request.toCard("nothing"));
+        card.update(request.toCard(card.getPhotosImagePath()));
 
         final List<CardItem> cardItems = getRequestCardItems(request, id);
         cardItemRepository.deleteAllByCardId(id);

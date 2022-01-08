@@ -11,6 +11,8 @@ public class CardRequest {
     private String password;
     private List<CardItemRequest> cardItems;
 
+    public CardRequest() {}
+
     public CardRequest(String name, String email, String gender, String profession,
                        String password, List<CardItemRequest> cardItems) {
         this.name = name;
