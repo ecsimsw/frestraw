@@ -35,14 +35,21 @@ public class Card {
     private String email;
     private String gender;
     private String profession;
-//    private List<CardGroup> cardGroups;
-
-    protected Card() {}
 
     public void update(Card other) {
         this.name = other.name;
         this.email = other.email;
         this.gender = other.gender;
+        this.profession = other.profession;
+    }
+
+    protected Card() {}
+
+    public Card(String name, String email, String gender, String profession) {
+        this.name = name;
+        this.email = email;
+        this.gender = gender;
+        this.profession = profession;
     }
 
     public Long getId() {
@@ -59,5 +66,9 @@ public class Card {
 
     public String getGender() {
         return gender;
+    }
+
+    public String getProfession() {
+        return profession;
     }
 }

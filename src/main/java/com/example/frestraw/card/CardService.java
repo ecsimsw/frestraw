@@ -14,7 +14,6 @@ public class CardService {
         this.cardRepository = cardRepository;
     }
 
-
     @Transactional
     public CardResponse create(CardRequest request) {
         final Card card = request.toEntity();
