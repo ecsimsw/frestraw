@@ -29,7 +29,7 @@ public class Card {
 //    좋아하는 음식
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Long id;
     private String name;
     private String email;
@@ -43,7 +43,7 @@ public class Card {
         this.profession = other.profession;
     }
 
-    protected Card() {}
+    public Card() {}
 
     public Card(String name, String email, String gender, String profession) {
         this.name = name;

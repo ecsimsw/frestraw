@@ -26,10 +26,10 @@ public class CardController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping
-    public ResponseEntity<List<CardResponse>> findAllCards() {
-        final List<CardResponse> responses = cardService.findAllCards();
-        return ResponseEntity.ok(responses);
+    @PostMapping("/groups/{groupId}")
+    public ResponseEntity<CardResponse> createInGroup(@PathVariable Long groupId, @RequestBody CardRequest cardRequest) {
+        final CardResponse response = cardService.createInGroup(groupId, cardRequest);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{id}")

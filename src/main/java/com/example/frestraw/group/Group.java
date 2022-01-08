@@ -1,21 +1,19 @@
 package com.example.frestraw.group;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
+@Table(name = "GROUPS")
 @Entity
 public class Group {
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     @Id
     private Long id;
     private String name;
     private String ownerEmail;
     private String password;
 
-    protected Group() {}
+    public Group() {}
 
     public void update(Group other) {
         this.name = other.name;

@@ -1,19 +1,22 @@
 package com.example.frestraw.group;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import com.example.frestraw.card.Card;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class GroupService {
 
+    private final CardGroupRepository cardGroupRepository;
     private final GroupRepository groupRepository;
 
-    public GroupService(GroupRepository groupRepository) {
+    public GroupService(CardGroupRepository cardGroupRepository, GroupRepository groupRepository) {
+        this.cardGroupRepository = cardGroupRepository;
         this.groupRepository = groupRepository;
     }
-
 
     @Transactional
     public GroupResponse create(GroupRequest request) {
@@ -25,22 +28,36 @@ public class GroupService {
     @Transactional(readOnly = true)
     public List<GroupResponse> findAllGroups() {
         return groupRepository.findAll().stream()
-            .map(GroupResponse::of)
-            .collect(Collectors.toList());
+                .map(GroupResponse::of)
+                .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
     public GroupResponse findById(Long id) {
         final Group group = groupRepository.findById(id)
-            .orElseThrow(IllegalArgumentException::new);
+                .orElseThrow(IllegalArgumentException::new);
         return GroupResponse.of(group);
     }
 
     @Transactional
     public GroupResponse update(Long id, GroupRequest request) {
         final Group group = groupRepository.findById(id)
-            .orElseThrow(IllegalArgumentException::new);
+                .orElseThrow(IllegalArgumentException::new);
         group.update(request.toEntity());
         return GroupResponse.of(group);
+    }
+
+    @Transactional
+    public GroupResponse enter(Long groupId, Card card) {
+        final Group newEntered = groupRepository.findById(groupId).get();
+        cardGroupRepository.save(new CardGroup(card, newEntered));
+        return GroupResponse.of(newEntered);
+    }
+
+    @Transactional(readOnly = true)
+    public List<GroupResponse> findAllByCard(Card card) {
+        final List<CardGroup> cardGroups = cardGroupRepository.findAllByCard(card);
+        final List<Group> groups = cardGroups.stream().map(CardGroup::getGroup).collect(Collectors.toList());
+        return GroupResponse.listOf(groups);
     }
 }
