@@ -1,15 +1,20 @@
 package com.example.frestraw.card;
 
+import com.example.frestraw.card.item.ItemRepository;
+import com.example.frestraw.group.CardGroup;
+import com.example.frestraw.group.CardGroupRepository;
+import com.example.frestraw.group.GroupResponse;
+import com.example.frestraw.group.GroupService;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import com.example.frestraw.card.item.ItemRepository;
-import com.example.frestraw.group.*;
+import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Collections;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -32,6 +37,10 @@ public class CardService {
 
     @Transactional
     public CardResponse create(CardRequest request, MultipartFile multipartFile) throws IOException {
+
+        if (cardRepository.findByEmail(request.getEmail()).isPresent()) {
+            throw new CardDuplicateException();
+        }
 
         final String imageName = multipartFile == null ? "default" : StringUtils.cleanPath(multipartFile.getOriginalFilename());
 
@@ -135,5 +144,49 @@ public class CardService {
         final List<GroupResponse> groupResponses = groupService.enter(groupId, card);
         final List<CardItem> cardItems = cardItemRepository.findAllByCardId(card.getId());
         return CardResponse.of(card, CardItemResponse.listOf(cardItems), groupResponses);
+    }
+
+    public byte[] imageById(Long cardId) throws IOException {
+        final Card card = cardRepository.getById(cardId);
+        final File imageFile = new File(card.getId() + ".png");
+        return getBytesFromFile(imageFile);
+    }
+
+    // Returns the contents of the file in a byte array.
+    private byte[] getBytesFromFile(File file) throws IOException {
+        // Get the size of the file
+        long length = file.length();
+
+        // You cannot create an array using a long type.
+        // It needs to be an int type.
+        // Before converting to an int type, check
+        // to ensure that file is not larger than Integer.MAX_VALUE.
+        if (length > Integer.MAX_VALUE) {
+            // File is too large
+            throw new IOException("File is too large!");
+        }
+
+        // Create the byte array to hold the data
+        byte[] bytes = new byte[(int)length];
+
+        // Read in the bytes
+        int offset = 0;
+        int numRead = 0;
+
+        InputStream is = new FileInputStream(file);
+        try {
+            while (offset < bytes.length
+                && (numRead=is.read(bytes, offset, bytes.length-offset)) >= 0) {
+                offset += numRead;
+            }
+        } finally {
+            is.close();
+        }
+
+        // Ensure all the bytes have been read in
+        if (offset < bytes.length) {
+            throw new IOException("Could not completely read file "+file.getName());
+        }
+        return bytes;
     }
 }
