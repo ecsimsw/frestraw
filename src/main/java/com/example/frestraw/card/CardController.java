@@ -9,6 +9,20 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("cards")
@@ -59,5 +73,15 @@ public class CardController {
     public ResponseEntity<CardResponse> update(@PathVariable Long id, @RequestBody CardRequest request) {
         final CardResponse response = cardService.update(id, request);
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/images/{cardId}")
+    public HttpEntity<byte[]> getPhoto(@PathVariable Long cardId) throws IOException {
+        byte[] image = cardService.imageById(cardId);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.IMAGE_PNG);
+        headers.setContentLength(image.length);
+        return new HttpEntity<>(image, headers);
     }
 }
