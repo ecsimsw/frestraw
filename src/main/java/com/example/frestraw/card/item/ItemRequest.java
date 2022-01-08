@@ -2,7 +2,11 @@ package com.example.frestraw.card.item;
 
 public class ItemRequest {
 
-    private final String name;
+    private String name;
+
+    public ItemRequest() {
+
+    }
 
     public ItemRequest(String name) {
         this.name = name;

@@ -1,32 +1,13 @@
 package com.example.frestraw.card;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import org.springframework.data.annotation.Transient;
 
 @Entity
 public class Card {
-
-//    Request
-//    이름
-//    성별
-//    이메일
-//    직업
-//
-//    Optional - field
-//    한줄소개
-//    전화번호
-//    나이 & 생년월일
-//    취미
-//    MBTI
-//    지역
-//    학교
-//    소속
-//    웹사이트
-//
-//    Optional - select
-//    좋아하는 음식
 
     @Id
     @GeneratedValue
@@ -35,15 +16,18 @@ public class Card {
     private String email;
     private String gender;
     private String profession;
+    @Column(nullable = true, length = 64)
+    private String image;
     private String password;
 
     public Card() {}
 
-    public Card(String name, String email, String gender, String profession, String password) {
+    public Card(String name, String email, String gender, String profession, String image, String password) {
         this.name = name;
         this.email = email;
         this.gender = gender;
         this.profession = profession;
+        this.image = image;
         this.password = password;
     }
 
@@ -72,6 +56,13 @@ public class Card {
 
     public String getProfession() {
         return profession;
+    }
+
+    @Transient
+    public String getPhotosImagePath() {
+        if (image == null || id == null) return null;
+
+        return "/card-photos/" + id + "/" + image;
     }
 
     public String getPassword() {

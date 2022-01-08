@@ -1,5 +1,6 @@
 package com.example.frestraw.card;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -9,6 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class CardService {
@@ -28,21 +31,40 @@ public class CardService {
     }
 
     @Transactional
-    public CardResponse create(CardRequest request) {
-        final Card card = request.toCard();
+    public CardResponse create(CardRequest request, MultipartFile multipartFile) throws IOException {
+
+        final String imageName = multipartFile == null ? "default" : StringUtils.cleanPath(multipartFile.getOriginalFilename());
+
+        final Card card = request.toCard(imageName);
         cardRepository.save(card);
 
         final List<CardItem> cardItems = getRequestCardItems(request, card.getId());
         cardItemRepository.saveAll(cardItems);
 
+
+        String uploadDir = "card-photos/" + card.getId();
+        if ("default".equals(imageName)) {
+//            String uploadPath = uploadDir.toFile().getAbsolutePath();
+//            multipartFile = Files.
+        }
+        FileUploadUtil.saveFile(uploadDir, imageName, multipartFile);
         return CardResponse.of(card, CardItemResponse.listOf(cardItems), Collections.emptyList());
     }
 
     @Transactional
-    public CardResponse createInGroup(Long groupId, CardRequest request) {
-        final Card card = cardRepository.save(request.toCard());
+    public CardResponse createInGroup(Long groupId, CardRequest request, MultipartFile multipartFile) throws IOException {
+        final String imageName = multipartFile == null ? "default" : StringUtils.cleanPath(multipartFile.getOriginalFilename());
+        final Card card = cardRepository.save(request.toCard(imageName));
         final List<CardItem> cardItems = cardItemRepository.saveAll(getRequestCardItems(request, card.getId()));
         final GroupResponse groupResponse = groupService.enter(groupId, card);
+
+        String uploadDir = "card-photos/" + card.getId();
+        if ("default".equals(imageName)) {
+//            String uploadPath = uploadDir.toFile().getAbsolutePath();
+//            multipartFile = Files.
+        }
+        FileUploadUtil.saveFile(uploadDir, imageName, multipartFile);
+
         return CardResponse.of(card, CardItemResponse.listOf(cardItems), List.of(groupResponse));
     }
 
@@ -90,7 +112,7 @@ public class CardService {
     @Transactional
     public CardResponse update(Long id, CardRequest request) {
         final Card card = getCard(id);
-        card.update(request.toCard());
+        card.update(request.toCard("nothing"));
 
         final List<CardItem> cardItems = getRequestCardItems(request, id);
         cardItemRepository.deleteAllByCardId(id);

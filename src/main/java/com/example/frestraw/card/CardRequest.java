@@ -1,7 +1,6 @@
 package com.example.frestraw.card;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class CardRequest {
 
@@ -22,8 +21,8 @@ public class CardRequest {
         this.cardItems = cardItems;
     }
 
-    public Card toCard() {
-        return new Card(name, email, gender, profession, password);
+    public Card toCard(String imageName) {
+        return new Card(name, email, gender, profession, imageName, password);
     }
 
     public String getName() {
@@ -44,5 +43,29 @@ public class CardRequest {
 
     public List<CardItemRequest> getCardItems() {
         return cardItems;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public void setProfession(String profession) {
+        this.profession = profession;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setCardItems(List<CardItemRequest> cardItems) {
+        this.cardItems = cardItems;
     }
 }
