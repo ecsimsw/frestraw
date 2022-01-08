@@ -38,10 +38,6 @@ public class CardService {
         final Card card = request.toCard(imageName);
         cardRepository.save(card);
 
-//        final List<CardItem> cardItems = getRequestCardItems(request, card.getId());
-//        cardItemRepository.saveAll(cardItems);
-
-
         String uploadDir = "card-photos/" + card.getId();
         if ("default".equals(imageName)) {
 //            String uploadPath = uploadDir.toFile().getAbsolutePath();
@@ -55,7 +51,6 @@ public class CardService {
     public CardResponse createInGroup(Long groupId, CardRequest request, MultipartFile multipartFile) throws IOException {
         final String imageName = multipartFile == null ? "default" : StringUtils.cleanPath(multipartFile.getOriginalFilename());
         final Card card = cardRepository.save(request.toCard(imageName));
-//        final List<CardItem> cardItems = cardItemRepository.saveAll(getRequestCardItems(request, card.getId()));
         final List<GroupResponse> groupResponses = groupService.enter(groupId, card);
 
         String uploadDir = "card-photos/" + card.getId();

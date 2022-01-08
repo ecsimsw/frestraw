@@ -19,7 +19,7 @@ public class CardController {
     }
 
     @PostMapping
-    public ResponseEntity<CardResponse> create(@RequestPart CardRequest request, @RequestParam(value = "image", required = false) MultipartFile multipartFile)
+    public ResponseEntity<CardResponse> create(CardRequest request, @RequestParam(value = "image", required = false) MultipartFile multipartFile)
             throws IOException {
         final CardResponse response = cardService.create(request, multipartFile);
         return ResponseEntity.ok(response);
