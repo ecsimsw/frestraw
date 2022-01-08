@@ -51,6 +51,6 @@ class Dummy {
 
         cardGroupRepository.save(new CardGroup(card, group));
         final List<CardGroup> allByGroupId = cardGroupRepository.findAllByGroupId(group.getId());
-        System.out.println("======" + allByGroupId.size());
+//        System.out.println("======" + allByGroupId.size());
     }
 }
