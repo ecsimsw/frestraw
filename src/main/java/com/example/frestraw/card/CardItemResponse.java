@@ -4,13 +4,13 @@ public class CardItemResponse {
 
     private final Long id;
     private final Long cardId;
-    private final Long itemId;
+    private final String itemName;
     private final String value;
 
-    public CardItemResponse(Long id, Long cardId, Long itemId, String value) {
+    public CardItemResponse(Long id, Long cardId, String itemName, String value) {
         this.id = id;
         this.cardId = cardId;
-        this.itemId = itemId;
+        this.itemName = itemName;
         this.value = value;
     }
 
@@ -18,7 +18,7 @@ public class CardItemResponse {
         return new CardItemResponse(
             cardItem.getId(),
             cardItem.getCardId(),
-            cardItem.getItemId(),
+            cardItem.getItem().getName(),
             cardItem.getValue()
         );
     }
@@ -31,8 +31,8 @@ public class CardItemResponse {
         return cardId;
     }
 
-    public Long getItemId() {
-        return itemId;
+    public String getItemName() {
+        return itemName;
     }
 
     public String getValue() {

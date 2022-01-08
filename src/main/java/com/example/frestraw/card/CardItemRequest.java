@@ -10,10 +10,6 @@ public class CardItemRequest {
         this.value = value;
     }
 
-    public CardItem of(Long cardId) {
-        return new CardItem(cardId, this.itemId, this.value);
-    }
-
     public Long getItemId() {
         return itemId;
     }

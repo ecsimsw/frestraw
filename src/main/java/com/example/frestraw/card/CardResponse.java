@@ -39,10 +39,6 @@ public class CardResponse {
                 cardItemResponses
         );
     }
-//
-//    public static List<CardResponse> listOf(List<Card> cardsInGroup) {
-//        return cardsInGroup.stream().map(it->of(it)).collect(Collectors.toList());
-//    }
 
     public Long getId() {
         return id;
@@ -66,5 +62,9 @@ public class CardResponse {
 
     public List<GroupResponse> getGroups() {
         return groups;
+    }
+
+    public List<CardItemResponse> getCardItems() {
+        return cardItems;
     }
 }

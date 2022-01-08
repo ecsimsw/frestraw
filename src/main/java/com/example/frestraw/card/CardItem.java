@@ -1,9 +1,8 @@
 package com.example.frestraw.card;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.example.frestraw.card.item.Item;
+
+import javax.persistence.*;
 
 @Entity
 public class CardItem {
@@ -12,14 +11,16 @@ public class CardItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Long cardId;
-    private Long itemId;
+
+    @ManyToOne
+    private Item item;
     private String value;
 
     protected CardItem() {}
 
-    public CardItem(Long cardId, Long itemId, String value) {
+    public CardItem(Long cardId, Item item, String value) {
         this.cardId = cardId;
-        this.itemId = itemId;
+        this.item = item;
         this.value = value;
     }
 
@@ -31,8 +32,8 @@ public class CardItem {
         return cardId;
     }
 
-    public Long getItemId() {
-        return itemId;
+    public Item getItem() {
+        return item;
     }
 
     public String getValue() {
