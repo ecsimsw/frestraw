@@ -7,19 +7,16 @@ public class GroupResponse {
 
     private final Long id;
     private final String name;
-    private final String ownerEmail;
 
-    public GroupResponse(Long id, String name, String ownerEmail) {
+    public GroupResponse(Long id, String name) {
         this.id = id;
         this.name = name;
-        this.ownerEmail = ownerEmail;
     }
 
     public static GroupResponse of(Group group) {
         return new GroupResponse(
                 group.getId(),
-                group.getName(),
-                group.getOwnerEmail()
+                group.getName()
         );
     }
 
@@ -33,9 +30,5 @@ public class GroupResponse {
 
     public String getName() {
         return name;
-    }
-
-    public String getOwnerEmail() {
-        return ownerEmail;
     }
 }

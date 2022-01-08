@@ -1,34 +1,38 @@
 package com.example.frestraw.card;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class CardItemResponse {
 
-    private final Long id;
-    private final Long cardId;
     private final String itemName;
     private final String value;
+    private final boolean sameHere;
 
-    public CardItemResponse(Long id, Long cardId, String itemName, String value) {
-        this.id = id;
-        this.cardId = cardId;
+    public CardItemResponse(String itemName, String value, boolean sameHere) {
         this.itemName = itemName;
         this.value = value;
+        this.sameHere = sameHere;
+    }
+
+    public static List<CardItemResponse> listOf(List<CardItem> cardItems) {
+        return cardItems.stream().map(it-> of(it)).collect(Collectors.toList());
     }
 
     public static CardItemResponse of(CardItem cardItem) {
         return new CardItemResponse(
-            cardItem.getId(),
-            cardItem.getCardId(),
-            cardItem.getItem().getName(),
-            cardItem.getValue()
+                cardItem.getItem().getName(),
+                cardItem.getValue(),
+                false
         );
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public Long getCardId() {
-        return cardId;
+    public static CardItemResponse sameHere(CardItem cardItem) {
+        return new CardItemResponse(
+                cardItem.getItem().getName(),
+                cardItem.getValue(),
+                true
+        );
     }
 
     public String getItemName() {
@@ -37,5 +41,9 @@ public class CardItemResponse {
 
     public String getValue() {
         return value;
+    }
+
+    public boolean isSameHere() {
+        return sameHere;
     }
 }

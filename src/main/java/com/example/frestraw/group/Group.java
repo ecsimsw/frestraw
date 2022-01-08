@@ -10,10 +10,14 @@ public class Group {
     @Id
     private Long id;
     private String name;
-    private String ownerEmail;
     private String password;
 
     public Group() {}
+
+    public Group(String name, String password) {
+        this.name = name;
+        this.password = password;
+    }
 
     public void update(Group other) {
         this.name = other.name;
@@ -26,10 +30,6 @@ public class Group {
 
     public String getName() {
         return name;
-    }
-
-    public String getOwnerEmail() {
-        return ownerEmail;
     }
 
     public String getPassword() {

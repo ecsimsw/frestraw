@@ -1,14 +1,10 @@
 package com.example.frestraw.card;
 
-import java.util.List;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("cards")
@@ -32,9 +28,19 @@ public class CardController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<CardResponse> findCardById(@PathVariable Long id) {
-        final CardResponse response = cardService.findById(id);
+    @GetMapping("/groups/{groupId}")
+    public ResponseEntity<List<CardSimpleResponse>> cardsInGroup(@PathVariable Long groupId) {
+        final List<CardSimpleResponse> responses = cardService.findAllCardsByGroup(groupId);
+        return ResponseEntity.ok(responses);
+    }
+
+    @GetMapping("/{cardId}")
+    public ResponseEntity<CardResponse> findCardById(@PathVariable Long cardId, @CookieValue(required = false) Long myId) {
+        if (Objects.isNull(myId)) {
+            final CardResponse response = cardService.findById(cardId);
+            return ResponseEntity.ok(response);
+        }
+        final CardResponse response = cardService.findWithComparing(cardId, myId);
         return ResponseEntity.ok(response);
     }
 

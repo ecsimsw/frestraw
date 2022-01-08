@@ -3,7 +3,6 @@ package com.example.frestraw.card;
 import com.example.frestraw.group.GroupResponse;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class CardResponse {
 
@@ -25,10 +24,7 @@ public class CardResponse {
         this.cardItems = cardItems;
     }
 
-    public static CardResponse of(Card card, List<CardItem> cardItems, List<GroupResponse> groups) {
-        final List<CardItemResponse> cardItemResponses = cardItems.stream()
-                .map(CardItemResponse::of)
-                .collect(Collectors.toList());
+    public static CardResponse of(Card card, List<CardItemResponse> cardItems, List<GroupResponse> groups) {
         return new CardResponse(
                 card.getId(),
                 card.getName(),
@@ -36,7 +32,7 @@ public class CardResponse {
                 card.getGender(),
                 card.getProfession(),
                 groups,
-                cardItemResponses
+                cardItems
         );
     }
 

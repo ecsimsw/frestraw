@@ -6,6 +6,7 @@ import com.example.frestraw.group.CardGroup;
 import com.example.frestraw.group.CardGroupRepository;
 import com.example.frestraw.group.Group;
 import com.example.frestraw.group.GroupRepository;
+import org.aspectj.weaver.ast.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -18,18 +19,18 @@ import java.util.List;
 public class FrestrawApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(FrestrawApplication.class, args);
-//
-//        SpringApplication application = new SpringApplication(FrestrawApplication.class);
-//        final ConfigurableApplicationContext ctx = application.run(args);
-//        final Test test = (Test)ctx.getBean("test");
-//        test.create();
+//        SpringApplication.run(FrestrawApplication.class, args);
+
+        SpringApplication application = new SpringApplication(FrestrawApplication.class);
+        final ConfigurableApplicationContext ctx = application.run(args);
+        final Dummy test = (Dummy) ctx.getBean("dummy");
+        test.create();
     }
 
 }
 
 @Component
-class Test {
+class Dummy {
 
     @Autowired
     private CardRepository cardRepository;
@@ -44,6 +45,9 @@ class Test {
 
         final Card card = cardRepository.save(new Card());
         final Group group = groupRepository.save(new Group());
+
+        System.out.println(card.getId());
+        System.out.println(group.getId());
 
         cardGroupRepository.save(new CardGroup(card, group));
         final List<CardGroup> allByGroupId = cardGroupRepository.findAllByGroupId(group.getId());
