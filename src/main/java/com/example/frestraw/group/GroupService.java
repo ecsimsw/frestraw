@@ -1,6 +1,7 @@
 package com.example.frestraw.group;
 
 import com.example.frestraw.card.Card;
+import com.example.frestraw.card.CardDuplicateException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -49,6 +50,12 @@ public class GroupService {
 
     @Transactional
     public List<GroupResponse> enter(Long groupId, Card card) {
+        List<CardGroup> allByCard = cardGroupRepository.findAllByCard(card);
+        for (CardGroup cardGroup : allByCard) {
+            if (groupId.equals(cardGroup.getGroup().getId())) {
+                throw new CardDuplicateException();
+            }
+        }
         final Group newEntered = groupRepository.findById(groupId).get();
         cardGroupRepository.save(new CardGroup(card, newEntered));
         return findAllByCard(card);

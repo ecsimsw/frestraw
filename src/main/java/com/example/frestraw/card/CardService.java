@@ -12,7 +12,6 @@ import java.io.InputStream;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
-import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -37,10 +36,6 @@ public class CardService {
 
     @Transactional
     public CardResponse create(CardRequest request, MultipartFile multipartFile) throws IOException {
-
-        if (cardRepository.findByEmail(request.getEmail()).isPresent()) {
-            throw new CardDuplicateException();
-        }
 
         final String imageName = multipartFile == null ? "default" : StringUtils.cleanPath(multipartFile.getOriginalFilename());
 
