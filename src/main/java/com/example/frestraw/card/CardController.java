@@ -1,22 +1,12 @@
 package com.example.frestraw.card;
 
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
-import org.springframework.http.ResponseEntity;
-import org.springframework.ui.ModelMap;
-import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("cards")
@@ -29,18 +19,22 @@ public class CardController {
     }
 
     @PostMapping
-    public ResponseEntity<CardResponse> create(ModelMap map, @RequestParam(value = "image", required = false) MultipartFile multipartFile)
-        throws IOException {
-        List<CardItem> cardItmes = (List<CardItem>)map.getAttribute("cardItmes");
-        System.out.println(cardItmes);
-        final CardResponse response = cardService.create(null, multipartFile);
+    public ResponseEntity<CardResponse> create(@RequestPart CardRequest request, @RequestParam(value = "image", required = false) MultipartFile multipartFile)
+            throws IOException {
+        final CardResponse response = cardService.create(request, multipartFile);
         return ResponseEntity.ok(response);
     }
 
     @PostMapping("/groups/{groupId}")
     public ResponseEntity<CardResponse> createInGroup(@PathVariable Long groupId, CardRequest cardRequest, @RequestParam(value = "image", required = false) MultipartFile multipartFile)
-        throws IOException {
+            throws IOException {
         final CardResponse response = cardService.createInGroup(groupId, cardRequest, multipartFile);
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/{cardId}/groups/{groupId}")
+    public ResponseEntity<CardResponse> enter(@PathVariable Long cardId, @PathVariable Long groupId) {
+        final CardResponse response = cardService.enterInGroup(cardId, groupId);
         return ResponseEntity.ok(response);
     }
 

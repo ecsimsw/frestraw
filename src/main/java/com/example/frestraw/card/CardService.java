@@ -56,7 +56,7 @@ public class CardService {
         final String imageName = multipartFile == null ? "default" : StringUtils.cleanPath(multipartFile.getOriginalFilename());
         final Card card = cardRepository.save(request.toCard(imageName));
         final List<CardItem> cardItems = cardItemRepository.saveAll(getRequestCardItems(request, card.getId()));
-        final GroupResponse groupResponse = groupService.enter(groupId, card);
+        final List<GroupResponse> groupResponses = groupService.enter(groupId, card);
 
         String uploadDir = "card-photos/" + card.getId();
         if ("default".equals(imageName)) {
@@ -65,7 +65,7 @@ public class CardService {
         }
         FileUploadUtil.saveFile(uploadDir, imageName, multipartFile);
 
-        return CardResponse.of(card, CardItemResponse.listOf(cardItems), List.of(groupResponse));
+        return CardResponse.of(card, CardItemResponse.listOf(cardItems), groupResponses);
     }
 
     @Transactional(readOnly = true)
@@ -130,5 +130,12 @@ public class CardService {
 
     private Card getCard(Long targetId) {
         return cardRepository.findById(targetId).orElseThrow(IllegalArgumentException::new);
+    }
+
+    public CardResponse enterInGroup(Long cardId, Long groupId) {
+        final Card card = getCard(cardId);
+        final List<GroupResponse> groupResponses = groupService.enter(groupId, card);
+        final List<CardItem> cardItems = cardItemRepository.findAllByCardId(card.getId());
+        return CardResponse.of(card, CardItemResponse.listOf(cardItems), groupResponses);
     }
 }

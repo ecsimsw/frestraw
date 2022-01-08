@@ -48,10 +48,10 @@ public class GroupService {
     }
 
     @Transactional
-    public GroupResponse enter(Long groupId, Card card) {
+    public List<GroupResponse> enter(Long groupId, Card card) {
         final Group newEntered = groupRepository.findById(groupId).get();
         cardGroupRepository.save(new CardGroup(card, newEntered));
-        return GroupResponse.of(newEntered);
+        return findAllByCard(card);
     }
 
     @Transactional(readOnly = true)
