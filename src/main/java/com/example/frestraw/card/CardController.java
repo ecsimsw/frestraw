@@ -3,6 +3,8 @@ package com.example.frestraw.card;
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -21,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 @RequestMapping("cards")
 public class CardController {
+    private static final Logger LOGGER = LoggerFactory.getLogger(CardController.class);
 
     private final CardService cardService;
 
@@ -56,6 +59,7 @@ public class CardController {
 
     @GetMapping("/{cardId}")
     public ResponseEntity<CardResponse> findCardById(@PathVariable Long cardId, @CookieValue(required = false) Long myId) {
+        LOGGER.info("my id : " + myId);
         if (Objects.isNull(myId)) {
             final CardResponse response = cardService.findById(cardId);
             return ResponseEntity.ok(response);
