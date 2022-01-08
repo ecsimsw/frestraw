@@ -32,10 +32,12 @@ public class Card {
     }
 
     public void update(Card other) {
-        this.name = other.name;
-        this.email = other.email;
-        this.gender = other.gender;
-        this.profession = other.profession;
+        if (this.password.equals(other.password)) {
+            this.name = other.name;
+            this.email = other.email;
+            this.gender = other.gender;
+            this.profession = other.profession;
+        }
     }
 
     public Long getId() {
