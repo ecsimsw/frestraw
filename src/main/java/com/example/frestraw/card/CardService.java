@@ -118,6 +118,9 @@ public class CardService {
     }
 
     private List<CardItem> getRequestCardItems(CardRequest request, Long cardId) {
+        if (request.getCardItems() == null) {
+            return Collections.emptyList();
+        }
         return request.getCardItems().stream()
                 .map(it -> new CardItem(cardId, itemRepository.findById(it.getItemId()).get(), it.getValue()))
                 .collect(Collectors.toList());
