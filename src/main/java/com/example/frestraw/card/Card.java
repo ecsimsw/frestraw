@@ -60,6 +60,10 @@ public class Card {
         return profession;
     }
 
+    public String getImage() {
+        return image;
+    }
+
     @Transient
     public String getPhotosImagePath() {
         if (image == null || id == null) return null;

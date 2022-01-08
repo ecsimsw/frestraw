@@ -1,9 +1,11 @@
 package com.example.frestraw.card;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
@@ -19,8 +21,7 @@ public class CardController {
     }
 
     @PostMapping
-    public ResponseEntity<CardResponse> create(CardRequest request, @RequestParam(value = "image", required = false) MultipartFile multipartFile)
-            throws IOException {
+    public ResponseEntity<CardResponse> create(CardRequest request, @RequestParam(value = "image", required = false) MultipartFile multipartFile) throws IOException {
         final CardResponse response = cardService.create(request, multipartFile);
         return ResponseEntity.ok(response);
     }

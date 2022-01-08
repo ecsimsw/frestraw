@@ -1,17 +1,20 @@
 package com.example.frestraw.card;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import com.example.frestraw.card.item.ItemRepository;
-import com.example.frestraw.group.*;
+import com.example.frestraw.group.CardGroup;
+import com.example.frestraw.group.CardGroupRepository;
+import com.example.frestraw.group.GroupResponse;
+import com.example.frestraw.group.GroupService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Collections;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 public class CardService {
@@ -32,34 +35,38 @@ public class CardService {
 
     @Transactional
     public CardResponse create(CardRequest request, MultipartFile multipartFile) throws IOException {
-
-        final String imageName = multipartFile == null ? "default" : StringUtils.cleanPath(multipartFile.getOriginalFilename());
-
+        final String imageName = getImageName(multipartFile);
         final Card card = request.toCard(imageName);
         cardRepository.save(card);
 
-        String uploadDir = "card-photos/" + card.getId();
         if ("default".equals(imageName)) {
-//            String uploadPath = uploadDir.toFile().getAbsolutePath();
-//            multipartFile = Files.
+            return CardResponse.of(card, Collections.emptyList(), Collections.emptyList());
         }
+
+        final String uploadDir = "card-photos/" + card.getId();
         FileUploadUtil.saveFile(uploadDir, imageName, multipartFile);
         return CardResponse.of(card, Collections.emptyList(), Collections.emptyList());
     }
 
+    private String getImageName(MultipartFile multipartFile) {
+        if (Objects.isNull(multipartFile)) {
+            return "default";
+        }
+        return StringUtils.cleanPath(multipartFile.getOriginalFilename());
+    }
+
     @Transactional
     public CardResponse createInGroup(Long groupId, CardRequest request, MultipartFile multipartFile) throws IOException {
-        final String imageName = multipartFile == null ? "default" : StringUtils.cleanPath(multipartFile.getOriginalFilename());
+        final String imageName = getImageName(multipartFile);
         final Card card = cardRepository.save(request.toCard(imageName));
         final List<GroupResponse> groupResponses = groupService.enter(groupId, card);
 
-        String uploadDir = "card-photos/" + card.getId();
         if ("default".equals(imageName)) {
-//            String uploadPath = uploadDir.toFile().getAbsolutePath();
-//            multipartFile = Files.
+            return CardResponse.of(card, Collections.emptyList(), groupResponses);
         }
-        FileUploadUtil.saveFile(uploadDir, imageName, multipartFile);
 
+        final String uploadDir = "card-photos/" + card.getId();
+        FileUploadUtil.saveFile(uploadDir, imageName, multipartFile);
         return CardResponse.of(card, Collections.emptyList(), groupResponses);
     }
 
@@ -87,7 +94,7 @@ public class CardService {
     }
 
     private CardItemResponse compareWithMine(CardItem targetItem, List<CardItem> myItems) {
-        if(isIncluded(targetItem, myItems)) {
+        if (isIncluded(targetItem, myItems)) {
             return CardItemResponse.sameHere(targetItem);
         }
         return CardItemResponse.of(targetItem);

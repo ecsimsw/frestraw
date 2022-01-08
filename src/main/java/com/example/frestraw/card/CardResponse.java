@@ -11,15 +11,17 @@ public class CardResponse {
     private String email;
     private String gender;
     private String profession;
+    private String image;
     private List<GroupResponse> groups;
     private List<CardItemResponse> cardItems;
 
-    public CardResponse(Long id, String name, String email, String gender, String profession, List<GroupResponse> groups, List<CardItemResponse> cardItems) {
+    public CardResponse(Long id, String name, String email, String gender, String profession, String image, List<GroupResponse> groups, List<CardItemResponse> cardItems) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.gender = gender;
         this.profession = profession;
+        this.image = image;
         this.groups = groups;
         this.cardItems = cardItems;
     }
@@ -31,6 +33,7 @@ public class CardResponse {
                 card.getEmail(),
                 card.getGender(),
                 card.getProfession(),
+                card.getImage(),
                 groups,
                 cardItems
         );
@@ -54,6 +57,10 @@ public class CardResponse {
 
     public String getName() {
         return name;
+    }
+
+    public String getImage() {
+        return image;
     }
 
     public List<GroupResponse> getGroups() {
