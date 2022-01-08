@@ -34,10 +34,29 @@ public class Card {
     private String name;
     private String email;
     private String gender;
+//    private List<CardGroup> cardGroups;
+
+    protected Card() {}
 
     public void update(Card other) {
         this.name = other.name;
         this.email = other.email;
         this.gender = other.gender;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getGender() {
+        return gender;
     }
 }
