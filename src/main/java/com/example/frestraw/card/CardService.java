@@ -11,9 +11,12 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -34,39 +37,16 @@ public class CardService {
     }
 
     @Transactional
-    public CardResponse create(CardRequest request, MultipartFile multipartFile) throws IOException {
-        final String imageName = getImageName(multipartFile);
-        final Card card = request.toCard(imageName);
+    public CardResponse create(CardRequest request, String imageFile) {
+        final Card card = request.toCard(imageFile);
         cardRepository.save(card);
-
-        if ("default".equals(imageName)) {
-            return CardResponse.of(card, Collections.emptyList(), Collections.emptyList());
-        }
-
-        final String uploadDir = "card-photos/" + card.getId();
-        FileUploadUtil.saveFile(uploadDir, imageName, multipartFile);
         return CardResponse.of(card, Collections.emptyList(), Collections.emptyList());
     }
 
-    private String getImageName(MultipartFile multipartFile) {
-        if (Objects.isNull(multipartFile)) {
-            return "default";
-        }
-        return StringUtils.cleanPath(multipartFile.getOriginalFilename());
-    }
-
     @Transactional
-    public CardResponse createInGroup(Long groupId, CardRequest request, MultipartFile multipartFile) throws IOException {
-        final String imageName = getImageName(multipartFile);
-        final Card card = cardRepository.save(request.toCard(imageName));
+    public CardResponse createInGroup(Long groupId, CardRequest request, String imageFile) {
+        final Card card = cardRepository.save(request.toCard(imageFile));
         final List<GroupResponse> groupResponses = groupService.enter(groupId, card);
-
-        if ("default".equals(imageName)) {
-            return CardResponse.of(card, Collections.emptyList(), groupResponses);
-        }
-
-        final String uploadDir = "card-photos/" + card.getId();
-        FileUploadUtil.saveFile(uploadDir, imageName, multipartFile);
         return CardResponse.of(card, Collections.emptyList(), groupResponses);
     }
 
@@ -125,7 +105,7 @@ public class CardService {
     }
 
     private List<CardItem> getRequestCardItems(CardRequest request, Long cardId) {
-        if (request.getCardItems() == null) {
+        if(Objects.isNull(request.getCardItems())){
             return Collections.emptyList();
         }
         return request.getCardItems().stream()

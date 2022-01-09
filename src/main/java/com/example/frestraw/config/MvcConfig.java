@@ -8,25 +8,13 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class MvcConfig implements WebMvcConfigurer {
-
-
-//    @Override
-//    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-//        exposeDirectory("card-photos", registry);
-//    }
-
-//    private void exposeDirectory(String dirName, ResourceHandlerRegistry registry) {
-//        Path uploadDir = Paths.get(dirName);
-//        String uploadPath = uploadDir.toFile().getAbsolutePath();
-//
-//        if (dirName.startsWith("../")) dirName = dirName.replace("../", "");
-//
-//        registry.addResourceHandler("/" + dirName + "/**").addResourceLocations("file:/"+ uploadPath + "/");
-//    }
+    
+    final Path FILE_ROOT = Paths.get("./card-photos").toAbsolutePath().normalize();
 
     @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry){
-        registry.addResourceHandler("/upload/**")
-                .addResourceLocations("/Users/kimjinhwan/IdeaProjects/frestraw/card-photos/aaa.png");
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry
+                .addResourceHandler("/resources/**")
+                .addResourceLocations(FILE_ROOT.toUri().toString());
     }
 }
