@@ -16,7 +16,6 @@ public class Card {
     private String email;
     private String gender;
     private String profession;
-    @Column(nullable = true, length = 64)
     private String image;
     private String password;
 
