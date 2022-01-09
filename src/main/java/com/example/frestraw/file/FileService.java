@@ -16,13 +16,6 @@ public class FileService {
 
     public String saveImageFile(MultipartFile multipartFile) {
         try {
-            if (multipartFile != null &&
-                 multipartFile.getOriginalFilename() != null &&
-                (!multipartFile.getOriginalFilename().endsWith(".png") ||
-                !multipartFile.getOriginalFilename().endsWith(".jpeg") ||
-                !multipartFile.getOriginalFilename().endsWith(".jpg"))) {
-                throw new FileFormatException();
-            }
             if (Objects.isNull(multipartFile)) {
                 return ROOT_PATH + "/" + DEFAULT_FILE_NAME;
             }
