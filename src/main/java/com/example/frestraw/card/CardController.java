@@ -48,7 +48,7 @@ public class CardController {
     }
 
     @GetMapping("/{cardId}")
-    public ResponseEntity<CardResponse> findCardById(@PathVariable Long cardId, @RequestBody(required = false) Long myId) {
+    public ResponseEntity<CardResponse> findCardById(@PathVariable Long cardId, Long myId) {
         System.out.println(">>>>>>>>>>>>>>>>>" + myId);
         if (Objects.isNull(myId)) {
             final CardResponse response = cardService.findById(cardId);
