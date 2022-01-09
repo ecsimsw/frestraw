@@ -49,6 +49,7 @@ public class CardController {
 
     @GetMapping("/{cardId}")
     public ResponseEntity<CardResponse> findCardById(@PathVariable Long cardId, @CookieValue(required = false) Long myId) {
+        System.out.println(">>>>>>>>>>>>>>>>>" + myId);
         if (Objects.isNull(myId)) {
             final CardResponse response = cardService.findById(cardId);
             return ResponseEntity.ok(response);
