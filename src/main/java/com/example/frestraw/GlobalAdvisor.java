@@ -1,6 +1,7 @@
 package com.example.frestraw;
 
 import com.example.frestraw.card.CardDuplicateException;
+import com.example.frestraw.file.FileFormatException;
 import com.example.frestraw.file.UploadFileException;
 import java.io.IOException;
 import org.springframework.http.ResponseEntity;
@@ -18,5 +19,10 @@ public class GlobalAdvisor {
     @ExceptionHandler(UploadFileException.class)
     public ResponseEntity<ErrorResponse> handleUploadFileException(UploadFileException e) {
         return ResponseEntity.badRequest().body(new ErrorResponse("사진을 업로드하는 도중 오류가 발생했습니다."));
+    }
+
+    @ExceptionHandler(FileFormatException.class)
+    public ResponseEntity<ErrorResponse> handleFileFormatException(FileFormatException e) {
+        return ResponseEntity.badRequest().body(new ErrorResponse("사진 형식은 .png, .jpeg, .jpg 중 하나를 골라주세요."));
     }
 }
