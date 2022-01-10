@@ -1,7 +1,6 @@
-package com.example.frestraw.group;
+package com.example.frestraw.group.domain;
 
-import com.example.frestraw.card.Card;
-import com.example.frestraw.group.CardGroup;
+import com.example.frestraw.card.domain.Card;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

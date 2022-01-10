@@ -1,6 +1,10 @@
-package com.example.frestraw.card.item;
+package com.example.frestraw.card.presentation;
 
 import java.util.List;
+
+import com.example.frestraw.card.application.ItemService;
+import com.example.frestraw.card.dto.ItemRequest;
+import com.example.frestraw.card.dto.ItemResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

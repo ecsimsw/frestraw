@@ -1,4 +1,6 @@
-package com.example.frestraw.card.item;
+package com.example.frestraw.card.dto;
+
+import com.example.frestraw.card.domain.Item;
 
 public class ItemResponse {
 

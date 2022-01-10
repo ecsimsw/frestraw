@@ -1,4 +1,6 @@
-package com.example.frestraw.group;
+package com.example.frestraw.group.dto;
+
+import com.example.frestraw.group.domain.Group;
 
 import java.util.List;
 import java.util.stream.Collectors;

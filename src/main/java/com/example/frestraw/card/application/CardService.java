@@ -1,10 +1,14 @@
-package com.example.frestraw.card;
+package com.example.frestraw.card.application;
 
-import com.example.frestraw.card.item.ItemRepository;
-import com.example.frestraw.group.CardGroup;
-import com.example.frestraw.group.CardGroupRepository;
-import com.example.frestraw.group.GroupResponse;
-import com.example.frestraw.group.GroupService;
+import com.example.frestraw.card.domain.*;
+import com.example.frestraw.card.dto.CardItemResponse;
+import com.example.frestraw.card.dto.CardRequest;
+import com.example.frestraw.card.dto.CardResponse;
+import com.example.frestraw.card.dto.CardSimpleResponse;
+import com.example.frestraw.group.domain.CardGroup;
+import com.example.frestraw.group.domain.CardGroupRepository;
+import com.example.frestraw.group.dto.GroupResponse;
+import com.example.frestraw.group.application.GroupService;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;

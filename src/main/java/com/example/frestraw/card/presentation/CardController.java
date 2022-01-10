@@ -1,5 +1,9 @@
-package com.example.frestraw.card;
+package com.example.frestraw.card.presentation;
 
+import com.example.frestraw.card.dto.CardRequest;
+import com.example.frestraw.card.dto.CardResponse;
+import com.example.frestraw.card.dto.CardSimpleResponse;
+import com.example.frestraw.card.application.CardService;
 import com.example.frestraw.file.FileService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

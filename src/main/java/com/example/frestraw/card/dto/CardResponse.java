@@ -1,6 +1,7 @@
-package com.example.frestraw.card;
+package com.example.frestraw.card.dto;
 
-import com.example.frestraw.group.GroupResponse;
+import com.example.frestraw.card.domain.Card;
+import com.example.frestraw.group.dto.GroupResponse;
 
 import java.util.List;
 

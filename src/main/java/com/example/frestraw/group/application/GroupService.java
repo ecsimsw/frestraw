@@ -1,7 +1,13 @@
-package com.example.frestraw.group;
+package com.example.frestraw.group.application;
 
-import com.example.frestraw.card.Card;
-import com.example.frestraw.card.CardDuplicateException;
+import com.example.frestraw.card.domain.Card;
+import com.example.frestraw.card.application.CardDuplicateException;
+import com.example.frestraw.group.domain.GroupRepository;
+import com.example.frestraw.group.dto.GroupRequest;
+import com.example.frestraw.group.dto.GroupResponse;
+import com.example.frestraw.group.domain.CardGroup;
+import com.example.frestraw.group.domain.CardGroupRepository;
+import com.example.frestraw.group.domain.Group;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,15 +41,13 @@ public class GroupService {
 
     @Transactional(readOnly = true)
     public GroupResponse findById(Long id) {
-        final Group group = groupRepository.findById(id)
-                .orElseThrow(IllegalArgumentException::new);
+        final Group group = getGroup(id);
         return GroupResponse.of(group);
     }
 
     @Transactional
     public GroupResponse update(Long id, GroupRequest request) {
-        final Group group = groupRepository.findById(id)
-                .orElseThrow(IllegalArgumentException::new);
+        final Group group = getGroup(id);
         group.update(request.toEntity());
         return GroupResponse.of(group);
     }
@@ -66,5 +70,9 @@ public class GroupService {
         final List<CardGroup> cardGroups = cardGroupRepository.findAllByCard(card);
         final List<Group> groups = cardGroups.stream().map(CardGroup::getGroup).collect(Collectors.toList());
         return GroupResponse.listOf(groups);
+    }
+
+    private Group getGroup(Long id) {
+        return groupRepository.findById(id).orElseThrow(IllegalArgumentException::new);
     }
 }

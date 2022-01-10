@@ -1,4 +1,6 @@
-package com.example.frestraw.card;
+package com.example.frestraw.card.dto;
+
+import com.example.frestraw.card.domain.Card;
 
 import java.util.List;
 import java.util.stream.Collectors;

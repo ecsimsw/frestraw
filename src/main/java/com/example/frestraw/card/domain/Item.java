@@ -1,4 +1,4 @@
-package com.example.frestraw.card.item;
+package com.example.frestraw.card.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

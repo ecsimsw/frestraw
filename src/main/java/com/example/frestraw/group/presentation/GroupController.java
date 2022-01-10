@@ -1,6 +1,10 @@
-package com.example.frestraw.group;
+package com.example.frestraw.group.presentation;
 
 import java.util.List;
+
+import com.example.frestraw.group.dto.GroupRequest;
+import com.example.frestraw.group.dto.GroupResponse;
+import com.example.frestraw.group.application.GroupService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

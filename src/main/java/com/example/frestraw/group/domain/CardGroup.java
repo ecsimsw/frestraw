@@ -1,7 +1,6 @@
-package com.example.frestraw.group;
+package com.example.frestraw.group.domain;
 
-import com.example.frestraw.card.Card;
-import com.example.frestraw.group.Group;
+import com.example.frestraw.card.domain.Card;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

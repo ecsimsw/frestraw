@@ -1,4 +1,4 @@
-package com.example.frestraw.group;
+package com.example.frestraw.group.domain;
 
 import javax.persistence.*;
 

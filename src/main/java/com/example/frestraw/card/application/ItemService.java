@@ -1,7 +1,12 @@
-package com.example.frestraw.card.item;
+package com.example.frestraw.card.application;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+import com.example.frestraw.card.domain.Item;
+import com.example.frestraw.card.domain.ItemRepository;
+import com.example.frestraw.card.dto.ItemRequest;
+import com.example.frestraw.card.dto.ItemResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

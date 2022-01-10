@@ -1,4 +1,6 @@
-package com.example.frestraw.group;
+package com.example.frestraw.group.dto;
+
+import com.example.frestraw.group.domain.Group;
 
 public class GroupRequest {
 

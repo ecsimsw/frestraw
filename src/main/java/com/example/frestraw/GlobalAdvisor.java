@@ -1,9 +1,8 @@
 package com.example.frestraw;
 
-import com.example.frestraw.card.CardDuplicateException;
+import com.example.frestraw.card.application.CardDuplicateException;
 import com.example.frestraw.file.FileFormatException;
 import com.example.frestraw.file.UploadFileException;
-import java.io.IOException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;

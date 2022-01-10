@@ -15,22 +15,15 @@ public class FileService {
     private static final String PHOTO_UPLOAD_FOLDER = "card-photos";
 
     public String saveImageFile(MultipartFile multipartFile) {
+        if (Objects.isNull(multipartFile)) {
+            return ROOT_PATH + "/" + DEFAULT_FILE_NAME;
+        }
         try {
-            if (multipartFile != null &&
-                 multipartFile.getOriginalFilename() != null &&
-                (!multipartFile.getOriginalFilename().endsWith(".png") ||
-                !multipartFile.getOriginalFilename().endsWith(".jpeg") ||
-                !multipartFile.getOriginalFilename().endsWith(".jpg"))) {
-                throw new FileFormatException();
-            }
-            if (Objects.isNull(multipartFile)) {
-                return ROOT_PATH + "/" + DEFAULT_FILE_NAME;
-            }
             final String imageName = LocalDateTime.now() + StringUtils.cleanPath(multipartFile.getOriginalFilename());
             FileUploadUtil.saveFile(PHOTO_UPLOAD_FOLDER, imageName, multipartFile);
             return ROOT_PATH + "/" + imageName;
         } catch (IOException e) {
-            throw new UploadFileException();
+            return ROOT_PATH + "/" + DEFAULT_FILE_NAME;
         }
     }
 }

@@ -1,6 +1,5 @@
-package com.example.frestraw.card;
+package com.example.frestraw.card.domain;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;

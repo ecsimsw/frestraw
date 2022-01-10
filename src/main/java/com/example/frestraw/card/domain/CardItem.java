@@ -1,6 +1,4 @@
-package com.example.frestraw.card;
-
-import com.example.frestraw.card.item.Item;
+package com.example.frestraw.card.domain;
 
 import javax.persistence.*;
 
